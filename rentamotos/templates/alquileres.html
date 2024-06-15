@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alquileres</title>
+</head>
+<body>
+    <h1>Lista de Alquileres</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'alquileres' %}">Alquileres</a></li>
+        </ul>
+    </nav>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Hora de Inicio</th>
+                <th>Hora de Fin</th>
+                <th>Horas</th>
+                <th>Estado</th>
+                <th>Monto</th>
+                <th>Cliente</th>
+                <th>Moto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alquiler in alquileres %}
+            <tr>
+                <td>{{ alquiler.alquiler_id }}</td>
+                <td>{{ alquiler.fecha }}</td>
+                <td>{{ alquiler.hora_inicio }}</td>
+                <td>{{ alquiler.hora_fin }}</td>
+                <td>{{ alquiler.cantidad_horas }}</td>
+                <td>{{ alquiler.estado }}</td>
+                <td>{{ alquiler.monto }}</td>
+                <td>{{ alquiler.cliente.nombres }} {{ alquiler.cliente.apellido_paterno }} {{ alquiler.cliente.apellido_materno }}</td>
+                <td>{{ alquiler.moto.placa }} - {{ alquiler.moto.modelo }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
