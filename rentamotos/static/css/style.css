@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+.font{
+    font-family: "Anton";
+    
+}
+
+.bg-fondo{
+    background: #dedee4;
+}
+.bg-nav{
+    background-color: #021229;
+}
+.text-font{
+    color: aqua;
+
+}
+#bgtext{
+    background: #021229;
+}

@@ -1,45 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Alquileres</title>
-</head>
-<body>
-    <h1>Lista de Alquileres</h1>
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'alquileres' %}">Alquileres</a></li>
-        </ul>
-    </nav>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Fecha</th>
-                <th>Hora de Inicio</th>
-                <th>Hora de Fin</th>
-                <th>Horas</th>
-                <th>Estado</th>
-                <th>Monto</th>
-                <th>Cliente</th>
-                <th>Moto</th>
-            </tr>
+{% extends 'principal.html'%}
+{% load static  %}
+{% block content %}
+<div class="container pb-5"><br><br><br>
+    <h2 class="font pb-3">LISTA DE ALQUILERES DEL DIA</h2>
+    <table class="table">
+        <thead class="table table-dark table-striped">
+          <tr class="">
+            <th scope="col">Cliente</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora de Inicio</th>
+            <th scope="col">Hora de Fin</th>
+            <th scope="col">Horas</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Monto</th>
+            <th  scope="col">Moto</th>
+          </tr>
         </thead>
         <tbody>
             {% for alquiler in alquileres %}
             <tr>
-                <td>{{ alquiler.alquiler_id }}</td>
+                <td>{{ alquiler.cliente.nombres }} {{ alquiler.cliente.apellido_paterno }} {{ alquiler.cliente.apellido_materno }}</td>
                 <td>{{ alquiler.fecha }}</td>
                 <td>{{ alquiler.hora_inicio }}</td>
                 <td>{{ alquiler.hora_fin }}</td>
                 <td>{{ alquiler.cantidad_horas }}</td>
                 <td>{{ alquiler.estado }}</td>
                 <td>{{ alquiler.monto }}</td>
-                <td>{{ alquiler.cliente.nombres }} {{ alquiler.cliente.apellido_paterno }} {{ alquiler.cliente.apellido_materno }}</td>
                 <td>{{ alquiler.moto.placa }} - {{ alquiler.moto.modelo }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+</div>
+{% endblock  %}
+
+
