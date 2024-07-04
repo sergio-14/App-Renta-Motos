@@ -1,0 +1,97 @@
+
+{% extends 'principal.html'%}
+{% load static  %}
+{% block content %}
+<script>
+    // Función para calcular la cantidad de horas y actualizar el monto
+    function calcularHorasYmonto() {
+        var horaInicio = document.getElementById('hora_inicio').value;
+        var horaFin = document.getElementById('hora_fin').value;
+
+        // Convertir horaInicio y horaFin a objetos Date para calcular la diferencia en horas
+        var fechaInicio = new Date();
+        var fechaFin = new Date();
+        fechaInicio.setHours(horaInicio.split(':')[0], horaInicio.split(':')[1]);
+        fechaFin.setHours(horaFin.split(':')[0], horaFin.split(':')[1]);
+
+        // Calcular diferencia en milisegundos
+        var diferenciaMs = fechaFin - fechaInicio;
+
+        // Convertir diferencia a horas
+        var diferenciaHoras = diferenciaMs / (1000 * 60 * 60);
+
+        // Mostrar la cantidad de horas calculadas
+        document.getElementById('cantidad_horas').value = diferenciaHoras.toFixed(2);
+
+        // Obtener la tarifa de la moto seleccionada
+        var motoSelect = document.getElementById('moto');
+        var selectedMoto = motoSelect.options[motoSelect.selectedIndex];
+        var tarifa = selectedMoto.dataset.tarifa;
+
+        // Calcular el monto si la tarifa está definida
+        if (tarifa) {
+            var monto = tarifa * diferenciaHoras;
+            document.getElementById('monto').value = monto.toFixed(2);
+        } else {
+            document.getElementById('monto').value = '';
+        }
+    }
+</script>
+<div class="container pb-5"><br><br><br>
+    <h2 class="font pb-3">REGISTRO DE NUEVO ALQUILER</h2>
+    <div class="row">
+        <div class="col-6">
+            <form method="post" oninput="calcularHorasYmonto()">
+                {% csrf_token %}
+                
+                <label for="cliente">Cliente:</label>
+                <select class="form-control" id="cliente" name="cliente">
+                    {% for cliente in clientes %}
+                    <option value="{{ cliente.ndi }}">{{ cliente.nombres }} {{ cliente.apellido_paterno }} {{ cliente.apellido_materno }}</option>
+                    {% endfor %}
+                </select><br>
+                
+                <label for="moto">Moto:</label>
+                <select class="form-control" id="moto" name="moto">
+                    {% for moto in motos %}
+                    <option value="{{ moto.moto_id }}" data-tarifa="{{ moto.tarifa }}">{{ moto.modelo }} - {{ moto.placa }}</option>
+                    {% endfor %}
+                </select><br>
+
+                <div class="row">
+                    <div class="col-4">
+                        <label for="hora_inicio">Hora de inicio:</label>
+                        <input class="form-control" type="time" id="hora_inicio" name="hora_inicio" required>
+                    </div>
+                    <div class="col-4">
+                        <label for="hora_fin">Hora de fin:</label>
+                        <input class="form-control" type="time" id="hora_fin" name="hora_fin" required>
+                    </div>
+                    <div class="col-4">
+                        <label for="cantidad_horas">Cantidad de horas:</label>
+                        <input class="form-control" type="text" id="cantidad_horas" name="cantidad_horas" readonly>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="fecha">Fecha:</label>
+                        <input class="form-control" type="date" id="fecha" name="fecha" value="{% now 'Y-m-d' %}" readonly>
+                    </div><br>
+                    <div class="col-6">
+                        <label for="monto">Monto:</label>
+                        <input class="form-control" type="text" id="monto" name="monto" readonly>    
+                    </div>
+                </div> <br>
+                <!-- Puedes añadir más campos según necesites -->
+        
+                <input class="btn btn-primary" type="submit" value="Guardar Alquiler">
+                <a class="btn btn-danger" href="{% url 'home' %}" >Cancelar </a>
+            </form>
+            
+        </div>
+        <div class="col-6">
+            <img src="{% static 'img\registro.gif' %}" class="img-fluid" alt="Responsive image">
+        </div>
+    </div>
+</div>
+{% endblock  %}

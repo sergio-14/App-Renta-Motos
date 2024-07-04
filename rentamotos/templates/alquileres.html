@@ -1,20 +1,46 @@
-{% extends 'principal.html'%}
-{% load static  %}
+{% extends 'principal.html' %}
+{% load static %}
+
 {% block content %}
 <div class="container pb-5"><br><br><br>
-    <h2 class="font pb-3">LISTA DE ALQUILERES DEL DIA</h2>
+    <h2 class="font pb-3">LISTA DE ALQUILERES Y REPORTE</h2>
+
+    <!-- Formulario de búsqueda por fecha y nombre de cliente -->
+    <form method="get" class="form-inline mb-3">
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group mr-2">
+            <label for="fecha" class="mr-2">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" class="form-control" value="{{ request.GET.fecha }}">
+          </div>
+        </div><br>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="nombre_cliente" class="mr-2">Nombre del Cliente:</label>
+            <input type="text" id="nombre_cliente" name="nombre_cliente" class="form-control" value="{{ request.GET.nombre_cliente }}">
+          </div> 
+        </div>
+        <div class="col-3">
+          <button type="submit" class="btn btn-primary ml-2 m-4">Buscar</button>   
+        </div>
+    </div> 
+    </form>
+
+    <!-- Tabla de alquileres -->
     <table class="table">
-        <thead class="table table-dark table-striped">
-          <tr class="">
-            <th scope="col">Cliente</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Hora de Inicio</th>
-            <th scope="col">Hora de Fin</th>
-            <th scope="col">Horas</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Monto</th>
-            <th  scope="col">Moto</th>
-          </tr>
+        <thead class="table-dark table-striped">
+            <tr>
+                <th scope="col">Cliente</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Hrs.Inicio</th>
+                <th scope="col">Hrs.Fin</th>
+                <th scope="col">Horas</th>
+                <th scope="col">Monto</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Moto-Placa</th>
+                <th scope="col">Foto</th>  <!-- Nuevo encabezado para la foto -->
+                <th scope="col">Acciones</th> <!-- Nuevo encabezado para acciones -->
+            </tr>
         </thead>
         <tbody>
             {% for alquiler in alquileres %}
@@ -23,15 +49,32 @@
                 <td>{{ alquiler.fecha }}</td>
                 <td>{{ alquiler.hora_inicio }}</td>
                 <td>{{ alquiler.hora_fin }}</td>
-                <td>{{ alquiler.cantidad_horas }}</td>
+                <td>{{ alquiler.cantidad_horas }} Hrs.</td>
+                <td>{{ alquiler.monto }} Bs.</td>
                 <td>{{ alquiler.estado }}</td>
-                <td>{{ alquiler.monto }}</td>
-                <td>{{ alquiler.moto.placa }} - {{ alquiler.moto.modelo }}</td>
+                <td>{{ alquiler.moto.modelo }} - {{ alquiler.moto.placa }}</td>
+                <td><img src="{{ alquiler.moto.foto.url }}" alt="Foto de la moto" style=" max-width: 80px; max-height: 80px;"></td>  <!-- Mostrar la foto de la moto -->
+                <td>
+                    <!-- Botón para devolver la moto -->
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="alquiler_id" value="{{ alquiler.pk }}">
+                        <button type="submit" name="devolver_moto" class="btn  btn-dark">Reabilitar</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="10">No se encontraron alquileres.</td>
             </tr>
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7" class="text-right font-weight-bold"></td>
+                <td colspan="3">Monto Total: {{ monto_total|floatformat:2 }} Bs.</td>
+            </tr>
+        </tfoot>
     </table>
 </div>
-{% endblock  %}
-
-
+{% endblock %}

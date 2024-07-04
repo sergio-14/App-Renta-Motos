@@ -37,25 +37,16 @@
                         <a class="nav-link active text-white" aria-current="page" href="/">Inicio</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link text-white " href="{% url 'alquileres' %}">Alquileres</a>
+                        <a class="nav-link text-white " href="{% url 'alquileres' %}">Reporte Indice</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link text-white " href="#">Registro</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link text-white " href="#">Reportes</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link text-white " href="#">Contactos</a>
+                        <a class="nav-link text-white " href="{% url 'crear_alquiler' %}">Registro</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link text-white " href="{% url 'admin:index' %}">Administraion</a>
                       </li>
                     </ul>
-                    <form class="d-flex me-2" role="search">
-                      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                      <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    
                     {% if user.is_authenticated %}
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
@@ -81,7 +72,7 @@
                 </div>
             </nav>
         </header>
-        <main>
+        <main >
             {% block content %}
             {% endblock  %}
         </main>

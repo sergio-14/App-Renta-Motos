@@ -23,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('alquileres/', views.alquileres, name='alquileres'),
+    
+    path('crear_alquiler/', views.crear_alquiler, name='crear_alquiler'),
     #logueamiento
     path('logout/', views.signout, name='logout'),
     path('signin/', views.signin, name='signin'),
