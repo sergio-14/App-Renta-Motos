@@ -9,6 +9,7 @@ def home(request):
 from django.db.models import Sum
 from .models import Alquiler
 
+
 def alquileres(request):
     # Obtener parámetros de filtro
     fecha = request.GET.get('fecha')
@@ -122,3 +123,8 @@ def crear_alquiler(request):
         'motos': motos,
     }
     return render(request, 'crear_alquiler.html', context)
+
+
+def lista_motos(request):
+    motos = Moto.objects.all()
+    return render(request, 'lista_motos.html', {'motos': motos})

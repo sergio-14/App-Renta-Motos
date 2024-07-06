@@ -1,0 +1,46 @@
+{% extends 'principal.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container pb-5"><br><br><br>
+    <h2 class="font pb-3">MOTOCOCLETAS LISTA</h2>
+
+    <!-- Formulario de búsqueda por fecha y nombre de cliente -->
+
+    <!-- Tabla de alquileres -->
+    <table class="table">
+        <thead class="table-dark table-striped">
+            <tr>
+                <th>Placa</th>
+                <th>Color</th>
+                <th>Tipo</th>
+                <th>Modelo</th>
+                <th>Detalle</th>
+                <th>Tarifa</th>
+                <th>Estado</th>
+                <th>Foto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for moto in motos %}
+            <tr>
+                <td>{{ moto.placa }}</td>
+                <td>{{ moto.color }}</td>
+                <td>{{ moto.tipo }}</td>
+                <td>{{ moto.modelo }}</td>
+                <td>{{ moto.detalle }}</td>
+                <td>{{ moto.tarifa }} Bs.</td>
+                <td>{{ moto.estado }}</td>
+                <td>
+                    {% if moto.foto %}
+                    <img src="{{ moto.foto.url }}" alt="{{ moto.modelo }}" style="width: 100px; height: auto;">
+                    {% else %}
+                    No disponible
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
